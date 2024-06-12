@@ -1,12 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AcunmedyaFurnitureProject.DataAccess.Context;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AcunmedyaFurnitureProject.ViewComponents.Default_Index
 {
 	public class _DefaultProductComponent : ViewComponent
 	{
-		public IViewComponentResult Invoke()
+		private readonly FurnitureContext _context;
+
+        public _DefaultProductComponent(FurnitureContext context)
+        {
+            _context = context;
+        }
+
+        public IViewComponentResult Invoke()
 		{
-			return View();
+			var values = _context.Products.OrderByDescending(x=>x.ProductId).Take(3).ToList();
+
+			return View(values);
 		}
 	}
 }
