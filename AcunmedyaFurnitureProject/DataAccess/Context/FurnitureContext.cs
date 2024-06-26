@@ -1,9 +1,10 @@
 ﻿using AcunmedyaFurnitureProject.DataAccess.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AcunmedyaFurnitureProject.DataAccess.Context
 {
-	public class FurnitureContext : DbContext
+	public class FurnitureContext : IdentityDbContext<AppUser,AppRole,int>
 	{
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

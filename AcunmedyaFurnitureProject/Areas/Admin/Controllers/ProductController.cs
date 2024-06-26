@@ -1,11 +1,13 @@
 ﻿using AcunmedyaFurnitureProject.DataAccess.Context;
 using AcunmedyaFurnitureProject.DataAccess.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcunmedyaFurnitureProject.Areas.Admin.Controllers
 {
 	[Area("Admin")]
 	[Route("[area]/[controller]/[action]/{id?}")]
+	[Authorize]
 	public class ProductController : Controller
 	{
 		private readonly FurnitureContext _context;
@@ -39,6 +41,21 @@ namespace AcunmedyaFurnitureProject.Areas.Admin.Controllers
 		public IActionResult CreateProduct(Product product)
 		{
 			_context.Add(product);
+			_context.SaveChanges();
+			return RedirectToAction("Index");
+		}
+
+		[HttpGet]
+		public IActionResult UpdateProduct(int id)
+		{
+			var value = _context.Products.Find(id);
+			return View(value);
+		}
+
+		[HttpPost]
+		public IActionResult UpdateProduct(Product product)
+		{
+			_context.Products.Update(product);
 			_context.SaveChanges();
 			return RedirectToAction("Index");
 		}

@@ -1,12 +1,19 @@
 using AcunmedyaFurnitureProject.DataAccess.Context;
+using AcunmedyaFurnitureProject.DataAccess.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddIdentity<AppUser,AppRole>().AddEntityFrameworkStores<FurnitureContext>();
 builder.Services.AddDbContext<FurnitureContext>();
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.ConfigureApplicationCookie(opt =>
+{
+    opt.LoginPath = "/Login/Index";
+});
 
 var app = builder.Build();
 
@@ -22,7 +29,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
